@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
     final response = await http.get(Uri.parse(url));
     SharedPreferences pref = await SharedPreferences.getInstance();
     name = pref.getString("firstName")!;
-    print("name... $name");
+    print("name2233 $name");
     var responseData = json.decode(response.body);
     print("code... ${response.statusCode}");
     print("Request Respone... $responseData");
