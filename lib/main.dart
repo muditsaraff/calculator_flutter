@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/login.dart';
 
@@ -8,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,55 +17,60 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: LogIn(),
+      home: SplashScreen(), // Change the home to SplashScreen
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class SplashScreen extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  // int _counter = 0;
-
-  // void _incrementCounter() {
-  //   setState(() {});
-  // }
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      Duration(seconds: 2), // Set the duration you want for the splash screen
+      () => Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LogIn(),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        leading: Icon(Icons.arrow_back),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/whitebg.jpg',
+            fit: BoxFit.cover,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+        Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/bmwlogo.png', // Replace with the path to your splash image
+                  width: 200, // Set the desired width for the image
+                  height: 200, // Set the desired height for the image
+                ),
+                SizedBox(height: 20), // Add some spacing between the splash image and the progress bar
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(const Color.fromARGB(255, 209, 14, 14)), // Customize the color of the progress bar
+                ),
+              ],
             ),
-            Text(
-              '',
-              //'$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
         ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

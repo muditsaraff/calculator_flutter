@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
 
-
   @override
   State<LogIn> createState() => _LogInState();
 }
@@ -37,6 +36,12 @@ class _LogInState extends State<LogIn> {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         pref.saveFirstName(data["firstName"]);
+        pref.saveLastName(data["lastName"]);
+        pref.saveid(data["id"]);
+        pref.saveGender(data["gender"]);
+        pref.saveEmail(data["email"]);
+
+        
         // Login successful
         Navigator.push(
           context,
@@ -59,38 +64,62 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                labelText: 'Username',
+      //appBar: AppBar(
+      //  title: Text('Login Page'),
+      //),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/whitebg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Image.asset(
+                  'assets/images/bmwlogo.png',
+                  height: 100,
+                  width: 100,
+                ),
               ),
-            ),
-            TextFormField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
+              SizedBox(height: 16.0),
+              TextFormField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  filled: true,
+                  fillColor: Color.fromARGB(255, 179, 175, 177),
+                ),
               ),
-              obscureText: true,
-            ),
-            SizedBox(height: 16.0),
-            if (_loginFailed)
-              Text(
-                'Invalid username or password',
-                style: TextStyle(color: Colors.red),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 179, 175, 177),
+                  ),
+                  obscureText: true,
+                ),
               ),
-            ElevatedButton(
-              onPressed: _handleLogin,
-              child: Text('Login'),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              if (_loginFailed)
+                Text(
+                  'Invalid username or password',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ElevatedButton(
+                onPressed: _handleLogin,
+                child: Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
     );
