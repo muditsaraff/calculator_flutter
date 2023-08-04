@@ -32,6 +32,7 @@ class SharePref {
     preferences = await SharedPreferences.getInstance();
     preferences!.setString("image", image);
   }
+  
 
   Future<SharedPreferences> _getPreferences() async {
     return await SharedPreferences.getInstance();

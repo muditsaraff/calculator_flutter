@@ -124,7 +124,7 @@ import 'package:flutter_application_1/profile.dart';
                       ),
                     ],
                   ),
-                ),
+                ), 
               ),
               SizedBox(height: 16.0),
               Column(children: [

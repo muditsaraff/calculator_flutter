@@ -12,8 +12,10 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _idController = TextEditingController();
-  TextEditingController _genderController = TextEditingController();
+  TextEditingController _imageController = TextEditingController();
+  String? _gender;
   SharedPreferences? pref;
+
   @override
   void initState() {
     super.initState();
@@ -32,11 +34,95 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: CircleAvatar(
+                radius: 50,
+                print("hey"+$_imageController.text);
+                backgroundImage: NetworkImage(_imageController.text),
+              ),
+            ),
+            SizedBox(height: 16),
             _buildField('First Name', _firstNameController),
             _buildField('Last Name', _lastNameController),
             _buildField('Email', _emailController),
             _buildField('ID', _idController),
-            _buildField('Gender', _genderController),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('Gender'),
+                ),
+                Radio(
+                  value: 'Male',
+                  groupValue: _gender,
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value as String?;
+                      pref!.setString('Gender', value as String);
+                    });
+                  },
+                ),
+                Text('Male'),
+                Radio(
+                  value: 'Female',
+                  groupValue: _gender,
+                  onChanged: (value) {
+                    setState(() {
+                      _gender = value as String?;
+                      pref!.setString('Gender', value as String);
+                    });
+                  },
+                ),
+                Text('Female'),
+              ],
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                // Perform action when the first button is pressed
+                print('First Button pressed!');
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.home),
+                  Text('Home'),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
+                // Perform action when the second button is pressed
+                //   print('Button 2 pressed');
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.person_2),
+                  Text(' Account'),
+                ],
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Perform action when the third button is pressed
+
+                print('Cart');
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.shopping_bag),
+                  Text(' Cart'),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -106,6 +192,10 @@ class _ProfilePageState extends State<ProfilePage> {
     pref = await SharedPreferences.getInstance();
     _firstNameController.text = pref!.getString('firstName').toString();
     _lastNameController.text = pref!.getString('lastName').toString();
+    _emailController.text = pref!.getString('email').toString();
+    _gender = pref!.getString('gender');
+    _idController.text = pref!.getString('id').toString();
+    _imageController.text = pref!.getString('image').toString();
   }
 }
 
