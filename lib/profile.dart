@@ -12,7 +12,8 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _idController = TextEditingController();
-  TextEditingController _imageController = TextEditingController();
+  String? image;
+  bool load = false;
   String? _gender;
   SharedPreferences? pref;
 
@@ -29,7 +30,8 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text('Profile Page'),
       ),
-      body: Padding(
+      body: load == false?Center(child: CircularProgressIndicator(),): Padding(
+
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,8 +39,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Center(
               child: CircleAvatar(
                 radius: 50,
-                print("hey"+$_imageController.text);
-                backgroundImage: NetworkImage(_imageController.text),
+
+                // print("hey"+$_imageController.text);
+                backgroundImage: NetworkImage(image.toString()),
               ),
             ),
             SizedBox(height: 16),
@@ -194,8 +197,12 @@ class _ProfilePageState extends State<ProfilePage> {
     _lastNameController.text = pref!.getString('lastName').toString();
     _emailController.text = pref!.getString('email').toString();
     _gender = pref!.getString('gender');
-    _idController.text = pref!.getString('id').toString();
-    _imageController.text = pref!.getString('image').toString();
+    _idController.text = pref!.getInt('id').toString();
+    image = pref!.getString('image').toString();
+    print("buig" + image.toString());
+    setState(() {
+      load = true;
+    });
   }
 }
 

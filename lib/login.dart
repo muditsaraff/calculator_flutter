@@ -18,7 +18,7 @@ class _LogInState extends State<LogIn> {
   TextEditingController _usernameController = TextEditingController();
   final url = 'https://dummyjson.com/auth/login';
 
-  void _handleLogin() async {
+  _handleLogin(BuildContext context) async {
     String username = _usernameController.text;
     String password = _passwordController.text;
     SharePref pref = SharePref();
@@ -40,13 +40,15 @@ class _LogInState extends State<LogIn> {
         pref.saveid(data["id"]);
         pref.saveGender(data["gender"]);
         pref.saveEmail(data["email"]);
+        pref.saveImage(data["image"]);
 
-        
         // Login successful
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Home()),
-        );
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => Home()), (route) => false);
+        // Navigator.push(
+        // context,
+        // MaterialPageRoute(builder: (context) => Home()),
+        // );
       } else {
         // Login failed
         setState(() {
@@ -115,7 +117,7 @@ class _LogInState extends State<LogIn> {
                   style: TextStyle(color: Colors.red),
                 ),
               ElevatedButton(
-                onPressed: _handleLogin,
+                onPressed: _handleLogin(context),
                 child: Text('Login'),
               ),
             ],

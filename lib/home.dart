@@ -57,13 +57,8 @@ import 'package:flutter_application_1/profile.dart';
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 250, 251, 251),
           title: const Text('Home Page'),
-          leading: IconButton(
-            color: Color.fromARGB(255, 117, 80, 186),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios),
-          ),
+          automaticallyImplyLeading: false,
+          leading: Container(),
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
